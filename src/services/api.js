@@ -4,7 +4,7 @@ import axios from 'axios';
 // Use environment variable or default to localhost
 // const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
-const API_URL = https://supa-rentals.onrender.com
+const API_URL = 'https://supa-rentals.onrender.com'
 //const API_URL = 'http://localhost:5000';
 
 const api = axios.create({
