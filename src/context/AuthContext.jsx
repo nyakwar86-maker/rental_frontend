@@ -141,19 +141,19 @@ export const AuthProvider = ({ children }) => {
       const token = response.data.tokens.accessToken;
       const user = response.data.user;
       
-      // Store token and user data
-      // localStorage.setItem('token', token);
-      // localStorage.setItem('user', JSON.stringify(user));
-      // localStorage.setItem('lastLogin', new Date().toISOString());
+      //Store token and user data
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('lastLogin', new Date().toISOString());
       
-      // setToken(token);
-      // setUser(user);
+      setToken(token);
+      setUser(user);
       
       
       // Connect socket after successful registration
       setTimeout(() => {
-        // socketService.connect(token);
-        window.location.href = '/login';
+        socketService.connect(token);
+        // window.location.href = '/login';
       }, 100);
       
       toast.success('Registration successful!');
