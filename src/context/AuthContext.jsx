@@ -137,27 +137,32 @@ export const AuthProvider = ({ children }) => {
       const response = await api.post('/auth/register', userData);
       console.log('✅ Register response:', response.data);
       
-      const { data } = response.data;
+      
+      const token = response.data.tokens.accessToken;
+      const user = response.data.user;
       
       // Store token and user data
-      localStorage.setItem('token', data.tokens.accessToken);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      localStorage.setItem('lastLogin', new Date().toISOString());
+      // localStorage.setItem('token', token);
+      // localStorage.setItem('user', JSON.stringify(user));
+      // localStorage.setItem('lastLogin', new Date().toISOString());
       
-      setToken(data.tokens.accessToken);
-      setUser(data.user);
+      // setToken(token);
+      // setUser(user);
+      
       
       // Connect socket after successful registration
       setTimeout(() => {
-        socketService.connect(data.tokens.accessToken);
+        // socketService.connect(token);
+        window.location.href = '/login';
       }, 100);
       
       toast.success('Registration successful!');
-      return { success: true, user: data.user };
+      return { success: true, user: user };
       
     } catch (error) {
       console.error('❌ Register error:', error.response?.data || error.message);
-      const errorMsg = error.response?.data?.error || 'Registration failed';
+      // const errorMsg = error.response?.data?.error || 'Registration failed';
+       const errorMsg = error.response?.data?.error;
       toast.error(errorMsg);
       return { success: false, error: errorMsg };
     }
@@ -194,7 +199,7 @@ export const AuthProvider = ({ children }) => {
     try {
       console.log('🔄 Updating profile...');
       const response = await api.put('/users/profile', profileData);
-      const updatedUser = { ...user, ...response.data.data.user };
+      const updatedUser = { ...user, ...response.data.user };
       
       // Update local storage
       localStorage.setItem('user', JSON.stringify(updatedUser));

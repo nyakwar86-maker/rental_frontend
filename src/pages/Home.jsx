@@ -7,8 +7,6 @@ import supabase from '../config/supabaseClient';
 const Home = () => {
   const { user, isAuthenticated } = useAuth();
 
-  console.log(supabase)
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}

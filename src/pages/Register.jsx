@@ -33,7 +33,7 @@ const Register = () => {
     setLoading(false);
     
     if (result.success) {
-      navigate('/');
+      // navigate('/');
     }
   };
 

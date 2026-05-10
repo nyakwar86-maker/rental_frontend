@@ -10,7 +10,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 const Profile = () => {
-  const { user, updateProfile, logout } = useAuth();
+  const { user, updateProfile, changePassword, logout } = useAuth();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -19,11 +19,13 @@ const Profile = () => {
     phone: '',
     avatar_url: ''
   });
+
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
   });
+
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [userStats, setUserStats] = useState(null);
 
@@ -58,7 +60,7 @@ const Profile = () => {
   const fetchLandlordStats = async () => {
     try {
       const response = await api.get('/users/landlord/stats');
-      setUserStats(response.data.data.stats);
+      setUserStats(response.data.stats);
     } catch (error) {
       console.error('Error fetching stats:', error);
     }
@@ -83,12 +85,10 @@ const Profile = () => {
     }
 
     try {
-      const response = await api.put('/users/change-password', {
-        currentPassword: passwordData.currentPassword,
-        newPassword: passwordData.newPassword
-      });
-      
-      toast.success(response.data.message || 'Password changed successfully');
+      const response = await changePassword(passwordData);
+      // toast.success(response.message || 'Password changed successfully');
+      console.log(response);
+
       setPasswordData({
         currentPassword: '',
         newPassword: '',
@@ -96,7 +96,8 @@ const Profile = () => {
       });
       setShowPasswordForm(false);
     } catch (error) {
-      toast.error(error.response?.data?.error || 'Failed to change password');
+      // toast.error(error.response?.data?.error );
+      console.log(error)
     }
   };
 
@@ -390,7 +391,7 @@ const Profile = () => {
               <div className="flex justify-between items-center">
                 <span>Member Since</span>
                 <span className="text-sm">
-                  {new Date(profile?.created_at).toLocaleDateString()}
+                  {new Date(profile?.createdAt).toLocaleDateString()}
                 </span>
               </div>
             </div>
