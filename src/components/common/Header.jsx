@@ -113,7 +113,7 @@ const Header = () => {
               <>
                 {/* Messages */}
                 {unreadCount > 0 && (
-                  <p className="text-xs text-blue-500 capitalize">{unreadCount} New {unreadCount == 1 ? "Message" : "Messages"}</p>
+                  <p className="text-xs text-red-500 capitalize">{unreadCount} New {unreadCount == 1 ? "Message" : "Messages"}</p>
                   )
                 }
                 <Link to="/chat" className="hidden md:block p-2 rounded-full hover:bg-gray-100 relative">
@@ -162,6 +162,14 @@ const Header = () => {
                 >
                   Get Started
                 </Link>
+
+                <Link to="/chat" className="messages-link">
+                  <FiMessageSquare  className="text-gray-600 "/>
+                  {unreadCount > 0 && (
+                     <span className="notification-badge">{unreadCount}</span>
+                  )}
+                </Link>
+
               </div>
             )}
 
@@ -198,11 +206,14 @@ const Header = () => {
               {isAuthenticated ? (
                 <>
                   <Link
-                    to="/conversations"
+                    to="/chat"
                     className={`px-4 py-3 rounded-lg ${isActive('/conversations')}`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Messages
+                    {unreadCount > 0 && (
+                     <span className="notification-badge">{unreadCount}</span>
+                    )}
                   </Link>
 
                   <Link
