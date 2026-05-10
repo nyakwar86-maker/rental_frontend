@@ -164,7 +164,11 @@ const Header = () => {
                 </Link>
 
                 <Link to="/chat" className="messages-link">
-                  <FiMessageSquare  className= {unreadCount > 0 && "text-red-600": "text-gray-600"} />
+                  {unreadCount > 0 ?
+                    <FiMessageSquare  className= "text-red-600"/>
+                    :
+                     <FiMessageSquare  className= "text-gray-600"/>
+                  }
                 </Link>
 
               </div>
