@@ -73,30 +73,42 @@ const Header = () => {
                   <span>Messages</span>
                 </Link> */}
 
-                <Link to="/chat" className="messages-link">
+                {/* <Link to="/chat" className="messages-link">
                   <FiMessageSquare  className="text-gray-600 "/>
                   {unreadCount > 0 && (
                      <span className="notification-badge">{unreadCount}</span>
                   )}
-                </Link>
+                </Link> */}
 
-                <Link
+                {/* <Link
                   to="/profile"
                   className={`px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-1 ${isActive('/profile')}`}
                 >
                   <FiUser />
                   <span>Profile</span>
-                </Link>
+                </Link> */}
 
                 {/* Add this link for landlords */}
                 {user?.role === 'landlord' && (
-                  <Link
-                    to="/landlord/listings"
-                    className="flex items-center space-x-2 text-gray-700 hover:text-blue-600"
-                  >
-                    <FiHome size={18} />
-                    <span>My Listings</span>
-                  </Link>
+                  <>
+                    <Link
+                      to="/landlord/listings"
+                      // className="flex items-center space-x-2 text-gray-700 hover:text-blue-600"
+                      className={`px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors ${isActive('/landlord/listings')}`}
+                    >
+                      {/* <FiHome size={18} /> */}
+                      <span>My Listings</span>
+                    </Link>
+
+                      <Link
+                      to="/"
+                      // className="flex items-center space-x-2 text-gray-700 hover:text-blue-600"
+                      className={`px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors ${isActive('/')}`}
+                    >
+                      {/* <FiHome size={18} /> */}
+                      <span>My Apartments</span>
+                    </Link>
+                  </>
                 )}
 
                 {user.role === 'admin' && (
@@ -132,19 +144,21 @@ const Header = () => {
                 {/* User Menu */}
                 <div className="hidden md:flex items-center space-x-3">
                   <div className="text-right">
-                    <p className="text-sm font-medium text-gray-900">{user?.full_name || user?.email}</p>
+                    {/* <p className="text-sm font-medium text-gray-900">{user?.full_name || user?.email}</p> */}
                     <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
                   </div>
-
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
-                    {user?.full_name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase()}
-                  </div>
-
+                 
+                  <Link to="/profile" className="hidden md:block p-1 rounded-full hover:bg-blue-100 relative">
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                      {user?.full_name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase()}
+                    </div>
+                  </Link>
+                
                   <button
                     onClick={handleLogout}
                     className="flex items-center space-x-2 text-gray-600 hover:text-red-600 p-2 rounded-lg hover:bg-gray-50"
                   >
-                    <FiLogOut />
+                     <FiLogOut />
                   </button>
                 </div>
               </>
@@ -184,6 +198,7 @@ const Header = () => {
           </div>
         </div>
 
+
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-100">
@@ -217,15 +232,28 @@ const Header = () => {
                     )}
                   </Link>
 
-                  <Link
-                    to="/profile"
-                    className={`px-4 py-3 rounded-lg ${isActive('/profile')}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Profile
-                  </Link>
+                  {user?.role === 'landlord' && (
+                    <>
+                      <Link
+                        to="/landlord/listings"
+                        className={`px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors ${isActive('/landlord/listings')}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <span>My Listings</span>
+                      </Link>
 
-                  <button
+                        <Link
+                        to="/"
+                        className={`px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors ${isActive('/')}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <span>My Apartments</span>
+                      </Link>
+                    </>
+                  )}
+
+
+                   <button
                     onClick={() => {
                       handleLogout();
                       setMobileMenuOpen(false);
@@ -258,9 +286,13 @@ const Header = () => {
             {isAuthenticated && (
               <div className="mt-4 pt-4 border-t border-gray-100">
                 <div className="flex items-center space-x-3 px-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
-                    {user?.full_name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase()}
-                  </div>
+                  
+                  <Link to="/profile" onClick={() => setMobileMenuOpen(false)}>
+                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                      {user?.full_name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase()}
+                    </div>
+                  </Link>
+
                   <div>
                     <p className="font-medium text-gray-900">{user?.full_name || user?.email}</p>
                     <p className="text-sm text-gray-500 capitalize">{user?.role}</p>
